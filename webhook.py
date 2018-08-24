@@ -103,7 +103,7 @@ def get_study_time():
         return jsonify(res='error'), 400
     scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name('asiaquest-intern-leow-3e0b0d31061a.json', scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name('./asiaquest-intern-leow-3e0b0d31061a.json', scope)
     gc = gspread.authorize(credentials)
     worksheet = gc.open('weekly_report').sheet1
     total_study_time = worksheet.acell('E19')
