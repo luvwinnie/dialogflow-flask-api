@@ -7,7 +7,8 @@ import logging
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 logging.getLogger('flask_assistant').setLevel(logging.DEBUG)
-
+import os
+from settings import APP_STATIC
 app = Flask(__name__)
 assist = Assistant(app, route='/')
 
@@ -103,11 +104,12 @@ def get_study_time():
         return jsonify(res='error'), 400
     scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name('./asiaquest-intern-leow-3e0b0d31061a.json', scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(APP_STATIC,'asiaquest-intern-leow-3e0b0d31061a.json'), scope)
     gc = gspread.authorize(credentials)
     worksheet = gc.open('weekly_report').sheet1
     total_study_time = worksheet.acell('E19')
     
+    speech = ""
     if total_study_time != "":
         speech += "グーグルスプレッドシートに合計勉強時間が記入されていません"
     
